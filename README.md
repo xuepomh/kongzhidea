@@ -1,5 +1,5 @@
 kongzhidea
 ==========
 
-kongzhidea github 
+kongzhidea github. 
 记录自己的代码.
