@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="LocateAddress" table="locate_address" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="longitude" type="long" length="32"  />
+		<property name="latitude" type="long" length="32" />
+		<property name="continent" type="string"  length="32"/>
+		<property name="country" type="string" length="32"/>
+		<property name="province" type="string" length="32"/>
+		<property name="city" type="string" length="32"/>
+		<property name="street" type="string" length="50" />
+		<property name="order_id" type="int"  column="order_id"/>
+		<property name="create_time" type="timestamp" column="create_time"/>
+		
+	</class>
+</hibernate-mapping>

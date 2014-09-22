@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="com.renren.shopping.model.CollectionPhoto" table="collections"
+		dynamic-insert="true">
+		<composite-id name="collectionPK"
+			class="com.renren.shopping.model.CollectionPK">
+			<key-property name="userId" column="user_id" type="int" />
+			<key-property name="photoId" column="photo_id" type="long" />
+		</composite-id>
+		<property name="goodId" type="long" column="good_id" />
+		<property name="travelId" type="long" column="travel_id" />
+		<property name="update_time" type="timestamp" />
+	</class>
+
+</hibernate-mapping>

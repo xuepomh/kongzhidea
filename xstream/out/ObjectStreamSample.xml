@@ -1,0 +1,21 @@
+<object-stream>
+  <com.baobaotao.domain.User>
+    <userId>1</userId>
+    <userName>xstream</userName>
+    <credits>0</credits>
+    <logs>
+      <com.baobaotao.domain.LoginLog>
+        <loginLogId>0</loginLogId>
+        <userId>0</userId>
+        <ip>192.168.1.91</ip>
+        <loginDate>2014-07-21 11:49:51.922 UTC</loginDate>
+      </com.baobaotao.domain.LoginLog>
+      <com.baobaotao.domain.LoginLog>
+        <loginLogId>0</loginLogId>
+        <userId>0</userId>
+        <ip>192.168.1.92</ip>
+        <loginDate>2014-07-21 11:49:51.922 UTC</loginDate>
+      </com.baobaotao.domain.LoginLog>
+    </logs>
+  </com.baobaotao.domain.User>
+</object-stream>

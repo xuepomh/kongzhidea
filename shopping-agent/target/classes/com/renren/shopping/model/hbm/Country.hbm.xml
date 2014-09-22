@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Country" table="country" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" type="string" length="32" not-null="true" unique="true" />
+		<property name="description" type="string" length="256" />
+		<property name="flag" type="string" length="256" />
+		<property name="flag_thumb" type="string" length="256" />
+		<!-- 多对一映射 -->
+		<many-to-one name="continent" column="continent_id" class="Continent" not-null="true" lazy="false"/>
+		<property name="hot" type="int" />
+		<property name="weight" type="int" />
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

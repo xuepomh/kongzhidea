@@ -1,0 +1,74 @@
+
+
+1  解压环境包base-env.tar.gz
+& tar -xzvf base-env.tar.gz
+
+2  执行
+& source ./base-env/env.sh
+& sh setup_zkpython.sh 
+
+3  执行python脚本
+具体使用方式：
+
+命令名称         使用方式                                                          命令说明
+help    python xoa2_admin_new.py -c conf_file help                                              命令帮助
+
+list    python xoa2_admin_new.py -c conf_file list [service_id] [endpoint]                      列出所有服务id或者节点的状态
+
+enable  python xoa2_admin_new.py -c conf_file enable service_id endpoint [old_zk/new_zk]        enable一个服务的节点
+
+disable python xoa2_admin_new.py -c conf_file disable service_id endpoint [old_zk/new_zk]       disable一个服务的节点
+
+create  python xoa2_admin_new.py -c conf_file create service_id endpoint [old_zk/new_zk]        创建一个服务的节点
+
+delete  python xoa2_admin_new.py -c conf_file delete service_id endpoint [old_zk/new_zk]        删除一个服务的节点
+
+
+   -c conf_file是必须的，其中conf_file是一个conf配置文件的具体地址，这个配置文件里有一些脚本需要的配置信息，信息有：
+
+   old_zk_addr:  老zk的集群地址
+
+   new_zk_addr:  新zk的集群地址
+
+   new_zk_auth:  访问新zk上节点的时候所需要的权限认证
+
+   在上面列出的使用方式中，包含有[]中括号表示 选项是可选择的。下面将分别介绍每个命令的具体含义。
+help：
+
+   python xoa2_admin_new.py -c conf_file help      列出脚本提供的所有功能
+
+
+list：
+
+   python xoa2_admin_new.py -c conf_file list       同时列出新老zk集群上所有的服务id(如果新老节点都存在该服务节点，则只会被列出一次)
+
+   python xoa2_admin_new.py -c conf_file list service_id       分别显示所指定的服务id在新老zk上所有存在节点的状态
+
+   python xoa2_admin_new.py -c conf_file list service_id endpoint       分别显示所指定的服务id以及指定的节点在新老zk上的状态
+
+enable：
+
+  python xoa2_admin_new.py -c conf_file enable service_id endpoint          同时让指定的服务id以及指定的节点在新老zk集群上的状态设置为enable，如果已经>为enable则不会发生变化。
+
+  python xoa2_admin_new.py -c conf_file enable service_id endpoint old_zk/new_zk        让指定的服务id以及指定的节点在所指定的zk集群上的状态设置为enable，如果已经为enable则不会发生变化。
+
+  python xoa2_admin_new.py -c conf_file disable service_id endpoint         同时让指定的服务id以及指定的节点在新老zk集群上的状态设置为disable，如果已经
+为enable则不会发生变化。
+
+  python xoa2_admin_new.py -c conf_file disable service_id endpoint old_zk/new_zk      让指定的服务id以及指定的节点在所指定的zk集群上的状态设置为disable，如果已经为enable则不会发生变化。
+
+create：
+
+  python xoa2_admin_new.py -c conf_file create service_id endpoint           同时在新老zk集群上指定的服务id路径上创建状态节点，如果状态节点已存在，或者
+指定的服务id不存在，创建不会成功。
+
+  python xoa2_admin_new.py -c conf_file create service_id endpoint old_zk/new_zk       在所指定的zk集群上指定的服务id路径上创建状态节点，如果状态节点已
+存在，或者指定的服务id不存在，创建不会成功。
+
+
+delete：
+
+  python xoa2_admin_new.py -c conf_file delete service_id endpoint           同时在新老zk集群上指定的服务id路径上删除状态节点，如果状态节点不存在，或者
+指定的服务id不存在，删除状态节点不会成功。
+
+  python xoa2_admin_new.py -c conf_file delete service_id endpoint old_zk/new_zk          在所指定的zk集群上指定的服务id路径上删除状态节点，如果状态节>点不存在，或者指定的服务id不存在，删除状态节点不会成功。

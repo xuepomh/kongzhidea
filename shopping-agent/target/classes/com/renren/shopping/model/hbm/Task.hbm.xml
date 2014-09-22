@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Task" table="tasks" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="userId" column="user_id" type="int" not-null="true" />
+		<property name="title" type="string" not-null="true" length="64" />
+		<!-- 跑腿费 -->
+		<property name="gratuity" type="double" not-null="true" />
+		<!-- 失效时间 -->
+		<property name="deadline" type="long" not-null="true" />
+		<!-- 任务描述 -->
+		<property name="message" type="string" length="1024" />
+		<!-- 补充信息 -->
+		<property name="goodCountry" column="good_country" type="string" />
+		<!-- 补充信息 -->
+		<property name="money" type="double" />
+		<!-- 补充信息 -->
+		<property name="goodNumber" column="good_number" type="int" />
+		<!-- 补充信息 -->
+		<property name="liveCity" column="live_city" type="string" />
+		<!-- 补充信息 -->
+		<property name="addressOtherId" column="address_id" type="int"
+			insert="false" update="false" />
+		<!-- 任务对应的商品信息 -->
+		<property name="goodId" column="good_id" type="long"
+			not-null="true" />
+		<!-- 备注 -->
+		<property name="remark" type="string" length="1024" />
+		<property name="delete_flag" type="int" />
+		<property name="update_time" type="timestamp" />
+		<property name="status" type="int" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,51 @@
+.content1 {
+	border-collapse: collapse;
+	width: 65%;
+	height: 100%;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	padding: 3px 7px 2px 7px;
+	margin: 3px 30px 4px 30px;
+}
+
+.content1 th,.content1 tr,.content1 td {
+	border-width: 1px;
+	border-color: #98bf21;
+	border-style: solid;
+	height: 30px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.content1 th {
+	cursor: pointer;
+}
+
+td:nth-child(1) {
+	width: 15%;
+	font-size: 15px;
+}
+
+td:nth-child(2) {
+	width: 15%;
+	font-size: 15px;
+}
+
+td:nth-child(3) {
+	width: 20%;
+	font-size: 13px;
+}
+
+td:nth-child(4) {
+	width: 10%;
+	font-size: 15px;
+}
+
+img.delete {
+	position: relative;
+	top: 5px;
+	width: 20px;
+	height: 20px;
+}
+.search_num{
+	cursor: pointer;
+}

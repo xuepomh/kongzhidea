@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="User" table="user" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="account" type="string" column="account"
+			length="32" not-null="true" unique="true" />
+		<property name="password_md5" type="string" length="32"
+			not-null="true" />
+		<property name="name" type="string" length="32" not-null="true"
+			unique="true" />
+		<property name="description" type="string" length="256" />
+		<property name="original_url" type="string" length="1024" />
+		<property name="main_url" type="string" length="1024" />
+		<property name="head_url" type="string" length="1024" />
+		<property name="tiny_url" type="string" length="1024" />
+		<!-- 大表拆分成组件 -->
+		<component name="userDetail" class="UserDetail">
+			<property name="email" type="string" length="128" />
+			<property name="age" type="int" />
+			<property name="tel" type="string" length="11" />
+			<property name="qq" type="string" length="32" />
+			<property name="sex" type="string" length="2" />
+		</component>
+		<property name="isV" type="int" column="is_v" />
+		<property name="credit" type="int" />
+		<property name="popularity" type="int" />
+		<property name="delete_flag" type="int" />
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

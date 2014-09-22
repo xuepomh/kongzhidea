@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="UserTelephone" table="user_telephone"
+		dynamic-insert="true">
+		<id name="userId" column="user_id">
+			<generator class="assigned" />
+		</id>
+		<property name="telephone" type="string" column="telephone"
+			not-null="true" unique="true" />
+		<!-- update_time默认是当前时间戳 -->
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

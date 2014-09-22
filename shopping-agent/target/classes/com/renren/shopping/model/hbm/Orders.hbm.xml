@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Orders" table="orders" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="order_number" type="long" column="order_number"
+		 not-null="true" unique="true" />
+		<property name="buyer_id" type="int" not-null="true" />
+		<property name="task_id" type="long" not-null="true" />
+		<property name="total_money" type="double"  />
+		<property name="create_time" type="timestamp"  />
+		<property name="update_time" type="timestamp"  />
+		<property name="score" type="float"  />
+		<property name="comments" type="string" length="180" />
+		<property name="leave_message" type="string" length="180"/>
+		<property name="order_status" type="int" />
+		<property name="addressId" type="int" not-null="true"/>
+		<property name="title" type="string" length="180"/>
+		<property name="gratuity" type="double" />
+		<property name="message" type="string" length="180"/>
+		<property name="money" type="double"/>
+		<property name="owner_id" type="int" />
+	</class>
+</hibernate-mapping>

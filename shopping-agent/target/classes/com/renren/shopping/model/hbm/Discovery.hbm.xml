@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Discovery" table="discovery" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="title" type="string" length="30" not-null="true"/>
+		<property name="main_pic_url" type="string" length="1024" not-null="true" />
+		<property name="background_pic_url" type="string" length="1024" not-null="true" />
+		<property name="buyer_ids" type="string" length="2048" />
+		<property name="article" type="text" />
+		<property name="create_time" type="timestamp"/>
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

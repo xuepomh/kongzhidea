@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+    http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
+
+
+	<!-- spring会默认注册SimpleUrlHandlerMapping和BeanNameUrlHandlerMapping, 前提是没有声明其他handlermapping -->
+	<!-- 简单控制器处理器适配器 SimpleControllerHandlerAdapter：表示所有实现了org.springframework.web.servlet.mvc.Controller接口的Bean可以作为Spring 
+		Web MVC中的处理器 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	<!-- HTTP请求处理器适配器 仅仅支持对HTTP请求处理器的适配。它简单的将HTTP请求对象和响应对象传递给HTTP请求处理器的实现，它并不需要返回值。它主要应用在基于HTTP的远程调用的实现上。 -->
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+
+	<!-- SimpleUrlHandlerMapping 根据定义转发请求，map from URLs to request handler beans -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<!-- 配置handlermapping执行顺序 从小到大开始执行,如果不说明则order为Integer.max_value -->
+		<property name="order" value="1000"></property>
+		<!-- 第一种配置方法 -->
+		<!-- <property name="urlMap"> -->
+		<!-- <map> -->
+		<!-- <entry key="/regcontroller" value-ref="regcontroller" /> -->
+		<!-- </map> -->
+		<!-- </property> -->
+
+		<!-- 第二种配置方法 -->
+		<!-- <property name="mappings"> -->
+		<!-- <bean -->
+		<!-- class="org.springframework.beans.factory.config.PropertiesFactoryBean"> -->
+		<!-- <property name="location"> -->
+		<!-- <value>/WEB-INF/urlMap.properties</value> -->
+		<!-- </property> -->
+		<!-- </bean> -->
+		<!-- </property> -->
+		<!-- 第三种配置方法 -->
+		<property name="mappings">
+			<props>
+				<prop key="/regcontroller">regcontroller</prop>
+				<prop key="/regcontroller2">regcontroller2</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- BeanNameUrlHandlerMapping 将表现层的url和bean name绑定在一起 -->
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<!-- 配置handlermapping执行顺序 从小到大开始执行 -->
+		<property name="order" value="2000"></property>
+	</bean>
+
+
+	<!-- 配置控制器实例,通过urlmapping来访问 -->
+	<bean name="regcontroller" class="com.kk.test.define.controller.RegController" />
+	<bean name="regcontroller2" class="com.kk.test.define.controller.Reg2Controller" />
+
+	<!-- 通过beanname来访问 -->
+	<bean name="/test/regcontroller3" class="com.kk.test.define.controller.Reg3Controller" />
+
+	<!-- ParameterizableViewController 参数映射控制器 ,ParameterizableViewController 
+		类别是 AbstractController 类别的简单实作子类别，您可以 直接在 Bean 定义档中定义，设定它的"viewName"属性，当这个 
+		Controller 执行时，会根据 "viewName"的设定直接导向所指定的网页，使用它的好处是可以用来避免直接对 JSP 网页请求 ,例如您可以设计一个 
+		index.jsp，为了让所有 的请求都透过 DispatcherServlet 控制，则您可 以将 index.jsp 放置在 WEB-INF 
+		下 ,然后配置ParameterizableViewController即可 -->
+	<bean name="/test/regcontroller4"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<!-- 配置视图名称 -->
+		<property name="viewName" value="test/register" />
+	</bean>
+
+	<!-- 文件名映射控制器,从请求的路径中获得逻辑视图名称 ，通过url直接解析到对应的jsp文件 -->
+	<bean name="/test/register2"
+		class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
+	</bean>
+
+
+	<!-- 配置多动作控制器,例如/operation?method=plus  -->
+	<bean name="/operation" class="com.kk.test.define.controller.OperationController">
+		<property name="methodNameResolver" ref="methodNameResolver" />
+	</bean>
+	<!-- 配置方法解析器,方法名称解析器ParameterMethodNameResolver-->
+	<bean id="methodNameResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="method" />
+	</bean>
+
+</beans>

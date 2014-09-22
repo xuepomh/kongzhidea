@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="com.renren.shopping.model.TravelGood" table="travel_goods"
+		dynamic-insert="true">
+		<composite-id name="travelGoodPK"
+			class="com.renren.shopping.model.TravelGoodPK">
+			<key-property name="travelId" column="travel_id" type="long" />
+			<key-property name="goodId" column="good_id" type="long" />
+		</composite-id>
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Logistics" table="logistics" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="orders_number" type="long" column="orders_number"
+		 not-null="true" unique="true" />
+		<property name="company" type="string" 
+			length="40" />
+		<property name="logistics_number" type="string" length="25" not-null="true" unique="true" />
+	</class>
+</hibernate-mapping>

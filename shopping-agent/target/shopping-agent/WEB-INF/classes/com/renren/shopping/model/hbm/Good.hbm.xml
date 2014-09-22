@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Good" table="goods" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" type="string" length="64" />
+		<property name="description" type="string" length="256" />
+		<property name="defaultPhoto" type="string" column="default_original_url"
+			length="1024" />
+		<property name="defaultMainUrl" type="string" column="default_main_url"
+			length="1024" />
+		<property name="defaultHeadUrl" type="string" column="default_head_url"
+			length="1024" />
+		<property name="defaultTinyUrl" type="string" column="default_tiny_url"
+			length="1024" />
+		<property name="update_time" type="timestamp" />
+	</class>
+</hibernate-mapping>

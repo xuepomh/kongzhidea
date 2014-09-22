@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!-- 设定Spring的根上下文 value用 逗号隔开。。。。。如果没有contextConfigLocation 指定配置文件，则Spring 
+		自动查找applicationContext.xml 配置文件。如果有contextConfigLocation，则利用该参数确定的配置文件。该参数指定的一个字符串，Spring 
+		的ContextLoaderListener 负责将该字符串分解成多个配置文件，逗号"，"、空格" "及分号";"都可作为字符串的分割符。如果既没有applicationContext.xml 
+		文件，也没有使用contextConfigLocation参数确定配置文件，或者contextConfigLocation确定的配置文件不存在。都将导致Spring 
+		无法加载配置文件或无法正常创建ApplicationContext 实例 -->
+	<!-- <context-param> -->
+	<!-- <param-name>contextConfigLocation</param-name> -->
+	<!-- <param-value> -->
+	<!-- classpath:/conf/applicationContext.xml -->
+	<!-- </param-value> -->
+	<!-- </context-param> -->
+	<!-- 通过contextConfigLocation参数指定的spring配置文件启动 业务层 的spring容器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- log4j -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/log4j.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+
+	<servlet>
+		<!-- 定义Servlet名称 在DispatcherServlet的初始化过程中，框架会在web应用的 WEB-INF文件夹下寻找名为[servlet-name]-servlet.xml 
+			的配置文件，生成文件中定义的bean。 -->
+		<servlet-name>dispatcherServlet</servlet-name>
+		<!-- Servlet具体实现类 -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 初始化上下文对象 -->
+		<init-param>
+			<!-- 参数名称 web层spring配置文件 -->
+			<param-name>contextConfigLocation</param-name>
+			<!-- 加载配置文件，用逗号隔开 -->
+			<param-value>
+				/WEB-INF/applicationContext.xml,
+				/WEB-INF/interceptor-servlet.xml,
+				/WEB-INF/applicationContext-url.xml,
+			</param-value>
+		</init-param>
+		<!-- 设置启动的优先级,在容器启动时候就加载 -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- 采用通配符映射所有请求 -->
+	<servlet-mapping>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<!-- springmvc的url pattern可以用*.htm或者/,但是不能用/* -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- 静态资源访问 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+
+
+</web-app>

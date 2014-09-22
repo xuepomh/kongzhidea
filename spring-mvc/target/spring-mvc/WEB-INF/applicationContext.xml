@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+    http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    ">
+
+	<!-- @ResponseBody 中文乱码问题 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<bean class="org.springframework.http.MediaType">
+								<constructor-arg index="0" value="text" />
+								<constructor-arg index="1" value="plain" />
+								<constructor-arg index="2" value="UTF-8" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<!-- spring扫描该包下所有类 -->
+	<context:component-scan base-package="com.kk" />
+
+	<!-- 默认的注解映射的支持 mvc:annotation-driven 会自动注册DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个实例 -->
+	<mvc:annotation-driven />
+
+	<!-- 视图解析器，根据视图的名称new ModelAndView(name)，在配置文件查找对应的bean配置 -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="1" />
+	</bean>
+	<!-- jackson JsonView视图 -->
+	<bean name="jsonView"
+		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+		<property name="encoding">
+			<value type="org.codehaus.jackson.JsonEncoding">UTF8</value>
+		</property>
+		<property name="contentType" value="text/html;charset=UTF-8" />
+	</bean>
+	<!-- 自定义JSONlib的json视图 -->
+	<bean name="jsonlibView" class="com.hoo.veiw.xml.MappingJsonlibVeiw">
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="encodeing" value="UTF-8" />
+	</bean>
+
+
+	<!-- 视图名称扫描器,默认显示/views/下的jsp路径 p:prefix等价于<property name="prefix" value=".."/> -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/views/" p:suffix=".jsp"></bean>
+
+
+	<!-- 定义受环境影响易变的变量 可以简写成context:property-placeholder，也是初始化一个PropertyPlaceholderConfigurer对象 -->
+	<!-- <bean -->
+	<!-- class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" 
+		/> -->
+	<!-- <property name="ignoreResourceNotFound" value="true" /> -->
+	<!-- <property name="locations"> -->
+	<!-- <list> -->
+	<!-- 标准配置 -->
+	<!-- <value>/WEB-INF/application.properties</value> -->
+	<!-- <value>classpath:*.properties</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<context:property-placeholder location="classpath:*.properties" />
+	<!-- jdbc 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}"></property>
+
+		<!-- Connection Pooling Info -->
+		<property name="defaultAutoCommit" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+	</bean>
+	<!-- jdbc 注入 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<!-- JDBCUtil -->
+	<bean id="JDBCUtil" class="com.kk.test.service.JDBCUtil">
+		<property name="jdbc" ref="jdbcTemplate"></property>
+		<!-- <property name="jdbc"> -->
+		<!-- <ref bean="jdbcTemplate" /> -->
+		<!-- </property> -->
+	</bean>
+
+	<!-- hibernate -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mappingLocations="classpath:/com/**/*.hbm.xml">
+		<!-- 指定hibernate实体类映射文件 -->
+		<!-- <property name="mappingLocations"> -->
+		<!-- <list> -->
+		<!-- <value>classpath:/com/kk/test</value> -->
+		<!-- </list> -->
+		<!-- </property> -->
+		<!-- 上述可以简写为 p:mappingLocations="classpath:/com/**/*.hbm.xml" -->
+		<!-- 指定hibernate配置属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory
+				</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 配置hibernatePemplate Bean -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate"
+		p:sessionFactory-ref="sessionFactory" />
+	<!-- 定义事务管理器（声明式的事务） -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为10MB -->
+		<property name="maxUploadSize" value="10485760" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- email相关服务 -->
+	<!-- 文本邮件服务类 -->
+	<bean id="simpleMailService" class="com.kk.test.util.mail.SimpleMailService">
+		<property name="mailSender" ref="mailSender" />
+	</bean>
+
+	<!-- MIME邮件服务类 -->
+	<bean id="mimeMailService" class="com.kk.test.util.mail.MimeMailService">
+		<property name="mailSender" ref="mailSender" />
+		<property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
+	</bean>
+
+	<!-- 用于生成HTML邮件模板内容的Freemarker配置 -->
+	<bean id="freemarkerConfiguration"
+		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:/email" />
+	</bean>
+	<!-- mail配置信息 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${mail.host}" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="defaultEncoding" value="${mail.defaultEncoding}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+
+
+</beans>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.renren.shopping.model">
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="Province" table="province" dynamic-insert="true">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="name" type="string" length="32" not-null="true"
+			unique="true" />
+		<property name="description" type="string" length="256" />
+		<property name="weight" type="int" />
+		<property name="update_time" type="timestamp" />
+		<!-- 一对多映射 ,可以添加orderby属性 -->
+		<set name="cities" lazy="false" order-by="weight desc">
+			<key column="province_id" />
+			<one-to-many class="City" />
+		</set>
+	</class>
+
+	<query name="com.renren.shopping.model.Province.getProvinceList"> 
+		<![CDATA[from Province order by weight desc]]>
+	</query>
+
+	<query name="com.renren.shopping.model.Province.getProvinceIDList"> 
+		<![CDATA[select id from Province order by weight desc]]>
+	</query>
+
+</hibernate-mapping>

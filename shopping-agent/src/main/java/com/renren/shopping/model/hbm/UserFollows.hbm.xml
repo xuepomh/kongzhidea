@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 动态插入和更新，当值为null的时候不加入到sql语句中 -->
+	<class name="com.renren.shopping.model.UserFollows" table="user_follows"
+		dynamic-insert="true">
+		<composite-id name="userFollowsPK"
+			class="com.renren.shopping.model.UserFollowsPK">
+			<key-property name="fanId" column="fan_id" type="int" />
+			<key-property name="userId" column="user_id" type="int" />
+		</composite-id>
+		<property name="update_time" type="timestamp" />
+	</class>
+
+	<query name="com.renren.shopping.model.UserFollows.getFollowedIds"> 
+		<![CDATA[from UserFollows where userFollowsPK.fanId = ?]]>
+	</query>
+	<query name="com.renren.shopping.model.UserFollows.getFanIds"> 
+		<![CDATA[from UserFollows where userFollowsPK.userId = :userId]]>
+	</query>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<user id="1">
+  <username>xstream</username>
+  <credits>0</credits>
+  <loginLog id="0" userId="0">
+    <ip>192.168.1.91</ip>
+    <loginDate>2014-08-26 16:20:12</loginDate>
+  </loginLog>
+  <loginLog id="0" userId="0">
+    <ip>192.168.1.92</ip>
+    <loginDate>2014-08-26 16:20:12</loginDate>
+  </loginLog>
+</user>
