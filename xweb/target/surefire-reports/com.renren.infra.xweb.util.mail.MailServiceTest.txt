@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.renren.infra.xweb.util.mail.MailServiceTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.202 sec
