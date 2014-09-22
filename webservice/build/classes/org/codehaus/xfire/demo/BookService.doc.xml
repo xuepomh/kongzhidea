@@ -1,0 +1,42 @@
+<service>
+  <documentation>
+    Service which allows to search for books
+  </documentation>
+  <method name="findBook" parametersNumber="1" >
+     <documentation>
+        Finds book by isbn
+     </documentation>
+     <parameter index="0">
+        <documentation>
+           ISBN number
+        </documentation>
+        </parameter>
+        
+      <return>
+        <documentation>
+         Book with given isbn number
+        </documentation>
+      </return>
+      
+      <exception class="org.codehaus.xfire.demo.BookException">
+        <documentation>
+         Thrown when no book is found for given isbn number.
+        </documentation>
+      </exception>
+      
+  </method>
+  
+    <method name="getBooks" parametersNumber="0" >
+     <documentation>
+        Get all books
+     </documentation>
+        
+      <return>
+        <documentation>
+         All books.
+        </documentation>
+      </return>
+  </method>
+  
+
+</service>

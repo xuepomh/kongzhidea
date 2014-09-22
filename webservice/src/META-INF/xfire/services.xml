@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>HelloService</name>
+		<serviceClass>com.test.service.IHelloService</serviceClass>
+		<implementationClass>com.test.service.HelloService
+		</implementationClass>
+	</service>
+	<service xmlns="http://xfire.codehaus.org/config/1.0">
+		<name>BookService</name>
+		<serviceClass>org.codehaus.xfire.demo.BookService</serviceClass>
+		<implementationClass>org.codehaus.xfire.demo.BookServiceImpl
+		</implementationClass>
+		<inHandlers>
+			<handler handlerClass="org.codehaus.xfire.demo.handlers.CheckVersionHandler" />
+		</inHandlers>
+	</service>
+</beans>
