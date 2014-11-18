@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module type="WEB" name="purchase-agent" id="purchase-agent" context-root="/purchase-agent" j2ee-spec="1.4" archive="purchase-agent.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp"/>
+  </attributes>
+</project-module>
